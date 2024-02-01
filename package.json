@@ -4,21 +4,26 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "run": "node index.js",
     "format": "prettier --write \"**/*.{js,html,css}\"",
     "lint": "eslint . --fix",
-    "format:check": "prettier \"**/*.{js,html,css}\"",
+    "format:check": "prettier --check \"**/*.{js,html,css}\"",
     "lint:check": "eslint .",
-    "prepare": "husky",
+    "prepare": "husky install",
     "postinstall": "husky install"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "npm run lint:check && npm run format:check"
     }
   },
   "lint-staged": {
-    "*.{js,css,html}": "eslint --cache --fix"
+    "*.{js,css,html}": [
+      "eslint --cache --fix",
+      "prettier --write",
+      "git add"
+    ]
   },
   "author": "",
   "license": "ISC",
